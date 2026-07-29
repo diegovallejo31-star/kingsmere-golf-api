@@ -50,3 +50,17 @@ CREATE TABLE IF NOT EXISTS rate_limit_hits (
 );
 
 CREATE INDEX IF NOT EXISTS idx_rate_limit ON rate_limit_hits (bucket, at);
+
+-- A club in the group - a course, a clubhouse and a membership. The code
+-- * is the one printed on a member's card and on the honours board.
+CREATE TABLE IF NOT EXISTS clubs (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  code TEXT NOT NULL,
+  name TEXT NOT NULL,
+  town TEXT NOT NULL,
+  holes INTEGER NOT NULL,
+  founded_on TEXT NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
+CREATE UNIQUE INDEX IF NOT EXISTS clubs_code_idx ON clubs (code);

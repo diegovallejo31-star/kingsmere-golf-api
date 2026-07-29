@@ -49,13 +49,15 @@ export class AuthService {
    * hashed on the way in and the hash never leaves this class.
    */
   register(email: string, fullName: string, password: string, role: Role): User {
-    const taken = this.db.prepare('SELECT id FROM users WHERE email = ?').get(email.toLowerCase());
+    const taken = this.db
+      .prepare('SELECT id FROM users WHERE email = ?')
+      .get(email.toLowerCase());
     if (taken) throw new ConflictError(`${email} is already registered`);
 
     const row = this.db
       .prepare(
         `INSERT INTO users (email, full_name, password_hash, role)
-         VALUES (?, ?, ?, ?) RETURNING *`
+         VALUES (?, ?, ?, ?) RETURNING *`,
       )
       .get(email.toLowerCase(), fullName, hashPassword(password), role) as unknown as UserRow;
     return toUser(row);
@@ -90,7 +92,7 @@ export class AuthService {
       .prepare(
         `SELECT u.* FROM sessions s
            JOIN users u ON u.id = s.user_id
-          WHERE s.token = ? AND s.expires_at > ?`
+          WHERE s.token = ? AND s.expires_at > ?`,
       )
       .get(token, new Date().toISOString()) as unknown as UserRow | undefined;
     if (!row) throw new UnauthorisedError('That session has run out');

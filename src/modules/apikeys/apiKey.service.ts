@@ -59,8 +59,7 @@ export class ApiKeyService {
   /** Revokes a key. Revoking one twice is a conflict, not a no-op. */
   revoke(id: number, at: string): ApiKey {
     const row = this.db.prepare('SELECT * FROM api_keys WHERE id = ?').get(id) as unknown as
-      | ApiKeyRow
-      | undefined;
+      ApiKeyRow | undefined;
     if (!row) throw new NotFoundError('ApiKey', id);
     if (row.revoked_at) throw new ConflictError(`That key was revoked on ${row.revoked_at}`);
 

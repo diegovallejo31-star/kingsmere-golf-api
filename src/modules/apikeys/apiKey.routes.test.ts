@@ -59,9 +59,9 @@ describe('api keys', () => {
   it('turns away a key nobody issued', async () => {
     const app = buildApp();
 
-    expect((await request(app).get('/api-keys').set('Authorization', 'Bearer nope')).status).toBe(
-      401
-    );
+    expect(
+      (await request(app).get('/api-keys').set('Authorization', 'Bearer nope')).status,
+    ).toBe(401);
     expect((await withKey(app, 'post', '/api-keys/999999/revoke')).status).toBe(404);
   });
 });
