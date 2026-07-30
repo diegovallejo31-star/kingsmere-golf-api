@@ -12,15 +12,13 @@ describe('clubs over the wire', () => {
   it('takes a new one and lists it back', async () => {
     const app = buildApp();
 
-    const made = await api(app)
-      .post('/clubs')
-      .send({
-        code: 'KGM',
-        name: 'Kingsmere',
-        town: 'Kingsmere',
-        holes: 18,
-        foundedOn: '1974-04-01',
-      });
+    const made = await api(app).post('/clubs').send({
+      code: 'KGM',
+      name: 'Kingsmere',
+      town: 'Kingsmere',
+      holes: 18,
+      foundedOn: '1974-04-01',
+    });
     expect(made.status).toBe(201);
 
     const listed = await api(app).get('/clubs');
@@ -31,15 +29,13 @@ describe('clubs over the wire', () => {
   it('answers one with exactly the fields it promises', async () => {
     const app = buildApp();
 
-    const made = await api(app)
-      .post('/clubs')
-      .send({
-        code: 'KGM',
-        name: 'Kingsmere',
-        town: 'Kingsmere',
-        holes: 18,
-        foundedOn: '1974-04-01',
-      });
+    const made = await api(app).post('/clubs').send({
+      code: 'KGM',
+      name: 'Kingsmere',
+      town: 'Kingsmere',
+      holes: 18,
+      foundedOn: '1974-04-01',
+    });
     expect(Object.keys(made.body).sort()).toEqual([
       'code',
       'createdAt',
@@ -55,15 +51,13 @@ describe('clubs over the wire', () => {
   it('reads one back by its id, and 404s for one that is not there', async () => {
     const app = buildApp();
 
-    const made = await api(app)
-      .post('/clubs')
-      .send({
-        code: 'KGM',
-        name: 'Kingsmere',
-        town: 'Kingsmere',
-        holes: 18,
-        foundedOn: '1974-04-01',
-      });
+    const made = await api(app).post('/clubs').send({
+      code: 'KGM',
+      name: 'Kingsmere',
+      town: 'Kingsmere',
+      holes: 18,
+      foundedOn: '1974-04-01',
+    });
     const read = await api(app).get(`/clubs/${made.body.id}`);
     expect(read.status).toBe(200);
     expect(read.body.id).toBe(made.body.id);
@@ -75,16 +69,14 @@ describe('clubs over the wire', () => {
   it('turns down a body carrying a field it does not know', async () => {
     const app = buildApp();
 
-    const res = await api(app)
-      .post('/clubs')
-      .send({
-        code: 'KGM',
-        name: 'Kingsmere',
-        town: 'Kingsmere',
-        holes: 18,
-        foundedOn: '1974-04-01',
-        nonesuch: 1,
-      });
+    const res = await api(app).post('/clubs').send({
+      code: 'KGM',
+      name: 'Kingsmere',
+      town: 'Kingsmere',
+      holes: 18,
+      foundedOn: '1974-04-01',
+      nonesuch: 1,
+    });
     expect(res.status).toBe(400);
   });
 
@@ -98,26 +90,22 @@ describe('clubs over the wire', () => {
   it('refuses a second one with the same code', async () => {
     const app = buildApp();
 
-    const first = await api(app)
-      .post('/clubs')
-      .send({
-        code: 'KGM',
-        name: 'Kingsmere',
-        town: 'Kingsmere',
-        holes: 18,
-        foundedOn: '1974-04-01',
-      });
+    const first = await api(app).post('/clubs').send({
+      code: 'KGM',
+      name: 'Kingsmere',
+      town: 'Kingsmere',
+      holes: 18,
+      foundedOn: '1974-04-01',
+    });
     expect(first.status).toBe(201);
 
-    const again = await api(app)
-      .post('/clubs')
-      .send({
-        code: 'KGM',
-        name: 'Kingsmere',
-        town: 'Kingsmere',
-        holes: 18,
-        foundedOn: '1974-04-01',
-      });
+    const again = await api(app).post('/clubs').send({
+      code: 'KGM',
+      name: 'Kingsmere',
+      town: 'Kingsmere',
+      holes: 18,
+      foundedOn: '1974-04-01',
+    });
     expect(again.status).toBe(409);
   });
 

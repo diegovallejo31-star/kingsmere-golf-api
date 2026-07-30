@@ -64,3 +64,18 @@ CREATE TABLE IF NOT EXISTS clubs (
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
 CREATE UNIQUE INDEX IF NOT EXISTS clubs_code_idx ON clubs (code);
+
+-- Somebody on the payroll at one club. The pro takes the lessons and the
+-- * secretary runs the office; the role is what the booking sheet checks before
+-- * it lets a lesson be booked against them.
+CREATE TABLE IF NOT EXISTS staff (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  club_id INTEGER NOT NULL REFERENCES clubs(id) ON DELETE CASCADE,
+  payroll_number TEXT NOT NULL,
+  name TEXT NOT NULL,
+  role TEXT NOT NULL,
+  started_on TEXT NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
+CREATE UNIQUE INDEX IF NOT EXISTS staff_payroll_number_idx ON staff (club_id, payroll_number);
