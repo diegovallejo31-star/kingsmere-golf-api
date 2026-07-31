@@ -35,3 +35,25 @@ export async function makeClub(
   }
   return res.body.id as number;
 }
+
+export async function makeStaffMember(
+  app: Express,
+  fields: Record<string, unknown> = {},
+): Promise<number> {
+  const n = next();
+  const { clubId: parent, ...rest } = fields as { clubId?: number };
+  const clubId = parent ?? (await makeClub(app));
+  const res = await api(app)
+    .post(`/clubs/${clubId}/staff`)
+    .send({
+      payrollNumber: `12${n}`,
+      name: 'Duncan Aird',
+      role: 'professional',
+      startedOn: '2016-02-01',
+      ...rest,
+    });
+  if (res.status !== 201) {
+    throw new Error(`makeStaffMember: ${res.status} ${JSON.stringify(res.body)}`);
+  }
+  return res.body.id as number;
+}
