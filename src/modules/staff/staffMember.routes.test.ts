@@ -13,14 +13,12 @@ describe('staff over the wire', () => {
     const app = buildApp();
     const clubId = await makeClub(app);
 
-    const made = await api(app)
-      .post(`/clubs/${clubId}/staff`)
-      .send({
-        payrollNumber: '12',
-        name: 'Duncan Aird',
-        role: 'professional',
-        startedOn: '2016-02-01',
-      });
+    const made = await api(app).post(`/clubs/${clubId}/staff`).send({
+      payrollNumber: '12',
+      name: 'Duncan Aird',
+      role: 'professional',
+      startedOn: '2016-02-01',
+    });
     expect(made.status).toBe(201);
 
     const listed = await api(app).get(`/clubs/${clubId}/staff`);
@@ -32,14 +30,12 @@ describe('staff over the wire', () => {
     const app = buildApp();
     const clubId = await makeClub(app);
 
-    const made = await api(app)
-      .post(`/clubs/${clubId}/staff`)
-      .send({
-        payrollNumber: '12',
-        name: 'Duncan Aird',
-        role: 'professional',
-        startedOn: '2016-02-01',
-      });
+    const made = await api(app).post(`/clubs/${clubId}/staff`).send({
+      payrollNumber: '12',
+      name: 'Duncan Aird',
+      role: 'professional',
+      startedOn: '2016-02-01',
+    });
     expect(Object.keys(made.body).sort()).toEqual([
       'clubId',
       'createdAt',
@@ -56,14 +52,12 @@ describe('staff over the wire', () => {
     const app = buildApp();
     const clubId = await makeClub(app);
 
-    const made = await api(app)
-      .post(`/clubs/${clubId}/staff`)
-      .send({
-        payrollNumber: '12',
-        name: 'Duncan Aird',
-        role: 'professional',
-        startedOn: '2016-02-01',
-      });
+    const made = await api(app).post(`/clubs/${clubId}/staff`).send({
+      payrollNumber: '12',
+      name: 'Duncan Aird',
+      role: 'professional',
+      startedOn: '2016-02-01',
+    });
     const read = await api(app).get(`/staff/${made.body.id}`);
     expect(read.status).toBe(200);
     expect(read.body.id).toBe(made.body.id);
@@ -76,15 +70,13 @@ describe('staff over the wire', () => {
     const app = buildApp();
     const clubId = await makeClub(app);
 
-    const res = await api(app)
-      .post(`/clubs/${clubId}/staff`)
-      .send({
-        payrollNumber: '12',
-        name: 'Duncan Aird',
-        role: 'professional',
-        startedOn: '2016-02-01',
-        nonesuch: 1,
-      });
+    const res = await api(app).post(`/clubs/${clubId}/staff`).send({
+      payrollNumber: '12',
+      name: 'Duncan Aird',
+      role: 'professional',
+      startedOn: '2016-02-01',
+      nonesuch: 1,
+    });
     expect(res.status).toBe(400);
   });
 
@@ -100,24 +92,20 @@ describe('staff over the wire', () => {
     const app = buildApp();
     const clubId = await makeClub(app);
 
-    const first = await api(app)
-      .post(`/clubs/${clubId}/staff`)
-      .send({
-        payrollNumber: '12',
-        name: 'Duncan Aird',
-        role: 'professional',
-        startedOn: '2016-02-01',
-      });
+    const first = await api(app).post(`/clubs/${clubId}/staff`).send({
+      payrollNumber: '12',
+      name: 'Duncan Aird',
+      role: 'professional',
+      startedOn: '2016-02-01',
+    });
     expect(first.status).toBe(201);
 
-    const again = await api(app)
-      .post(`/clubs/${clubId}/staff`)
-      .send({
-        payrollNumber: '12',
-        name: 'Duncan Aird',
-        role: 'professional',
-        startedOn: '2016-02-01',
-      });
+    const again = await api(app).post(`/clubs/${clubId}/staff`).send({
+      payrollNumber: '12',
+      name: 'Duncan Aird',
+      role: 'professional',
+      startedOn: '2016-02-01',
+    });
     expect(again.status).toBe(409);
   });
 
@@ -125,14 +113,12 @@ describe('staff over the wire', () => {
     const app = buildApp();
     const clubId = await makeClub(app);
 
-    const made = await api(app)
-      .post(`/clubs/${clubId}/staff`)
-      .send({
-        payrollNumber: '12',
-        name: 'Duncan Aird',
-        role: 'professional',
-        startedOn: '2016-02-01',
-      });
+    const made = await api(app).post(`/clubs/${clubId}/staff`).send({
+      payrollNumber: '12',
+      name: 'Duncan Aird',
+      role: 'professional',
+      startedOn: '2016-02-01',
+    });
     const patched = await api(app).patch(`/staff/${made.body.id}`).send({ role: 'secretary' });
     expect(patched.status).toBe(200);
     expect(patched.body.role).toEqual('secretary');
@@ -142,14 +128,12 @@ describe('staff over the wire', () => {
     const app = buildApp();
     const clubId = await makeClub(app);
 
-    const made = await api(app)
-      .post(`/clubs/${clubId}/staff`)
-      .send({
-        payrollNumber: '12',
-        name: 'Duncan Aird',
-        role: 'professional',
-        startedOn: '2016-02-01',
-      });
+    const made = await api(app).post(`/clubs/${clubId}/staff`).send({
+      payrollNumber: '12',
+      name: 'Duncan Aird',
+      role: 'professional',
+      startedOn: '2016-02-01',
+    });
     const patched = await api(app).patch(`/staff/${made.body.id}`).send({});
     expect(patched.status).toBe(400);
   });
@@ -157,14 +141,12 @@ describe('staff over the wire', () => {
   it('404s when the club is not there', async () => {
     const app = buildApp();
 
-    const res = await api(app)
-      .post('/clubs/999999/staff')
-      .send({
-        payrollNumber: '12',
-        name: 'Duncan Aird',
-        role: 'professional',
-        startedOn: '2016-02-01',
-      });
+    const res = await api(app).post('/clubs/999999/staff').send({
+      payrollNumber: '12',
+      name: 'Duncan Aird',
+      role: 'professional',
+      startedOn: '2016-02-01',
+    });
     expect(res.status).toBe(404);
   });
 

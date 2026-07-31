@@ -79,3 +79,17 @@ CREATE TABLE IF NOT EXISTS staff (
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
 CREATE UNIQUE INDEX IF NOT EXISTS staff_payroll_number_idx ON staff (club_id, payroll_number);
+
+-- A person on the books. Their category and what they owe are held
+-- * elsewhere - a member is just who they are and when they joined; the day they
+-- * joined is what a mid-season subscription is apportioned from.
+CREATE TABLE IF NOT EXISTS members (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  member_ref TEXT NOT NULL,
+  name TEXT NOT NULL,
+  email TEXT,
+  joined_on TEXT NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
+CREATE UNIQUE INDEX IF NOT EXISTS members_member_ref_idx ON members (member_ref);
