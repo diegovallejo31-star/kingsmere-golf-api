@@ -93,3 +93,16 @@ CREATE TABLE IF NOT EXISTS members (
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
 CREATE UNIQUE INDEX IF NOT EXISTS members_member_ref_idx ON members (member_ref);
+
+-- A class of membership and what a full year of it costs. A subscription
+-- * points at one of these and takes its annual rate; holding the rate here, once,
+-- * means a category-wide increase is one change rather than one per member.
+CREATE TABLE IF NOT EXISTS categories (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  code TEXT NOT NULL,
+  name TEXT NOT NULL,
+  annual_rate_pence INTEGER NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
+CREATE UNIQUE INDEX IF NOT EXISTS categories_code_idx ON categories (code);

@@ -56,14 +56,12 @@ describe('members over the wire', () => {
   it('turns down a body carrying a field it does not know', async () => {
     const app = buildApp();
 
-    const res = await api(app)
-      .post('/members')
-      .send({
-        memberRef: 'M-0071',
-        name: 'Eleanor Frost',
-        joinedOn: '2021-04-01',
-        nonesuch: 1,
-      });
+    const res = await api(app).post('/members').send({
+      memberRef: 'M-0071',
+      name: 'Eleanor Frost',
+      joinedOn: '2021-04-01',
+      nonesuch: 1,
+    });
     expect(res.status).toBe(400);
   });
 
