@@ -9,6 +9,7 @@ import { createApiKeyRouter } from './modules/apikeys/apiKey.routes';
 import { createAuditRouter } from './modules/audit/audit.routes';
 import { createAuthRouter } from './modules/auth/auth.routes';
 import { createClubRouter } from './modules/clubs/club.routes';
+import { createMemberRouter } from './modules/members/member.routes';
 import {
   createClubStaffMemberRouter,
   createStaffMemberRouter,
@@ -34,6 +35,7 @@ export function createApp(db: Database): Express {
   app.use('/clubs', requireApiKey, createClubRouter(db));
   app.use('/clubs', requireApiKey, createClubStaffMemberRouter(db));
   app.use('/staff', requireApiKey, createStaffMemberRouter(db));
+  app.use('/members', requireApiKey, createMemberRouter(db));
 
   app.use(notFoundHandler);
   app.use(errorHandler);
