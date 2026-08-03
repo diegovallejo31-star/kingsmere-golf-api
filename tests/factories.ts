@@ -57,3 +57,22 @@ export async function makeStaffMember(
   }
   return res.body.id as number;
 }
+
+export async function makeMember(
+  app: Express,
+  fields: Record<string, unknown> = {},
+): Promise<number> {
+  const n = next();
+  const res = await api(app)
+    .post('/members')
+    .send({
+      memberRef: `M-0071${n}`,
+      name: 'Eleanor Frost',
+      joinedOn: '2021-04-01',
+      ...fields,
+    });
+  if (res.status !== 201) {
+    throw new Error(`makeMember: ${res.status} ${JSON.stringify(res.body)}`);
+  }
+  return res.body.id as number;
+}
