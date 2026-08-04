@@ -106,3 +106,21 @@ CREATE TABLE IF NOT EXISTS categories (
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
 CREATE UNIQUE INDEX IF NOT EXISTS categories_code_idx ON categories (code);
+
+-- What a member owes for a season at a category. A member who joins on
+-- * the first day of the season pays the full rate; one who joins partway through
+-- * pays the rate apportioned over the days of the season still to come. The
+-- * figure is worked out when the subscription is raised and then held, so a rate
+-- * rise or a leap year later does not move it.
+CREATE TABLE IF NOT EXISTS subscriptions (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  member_id INTEGER NOT NULL REFERENCES members(id) ON DELETE CASCADE,
+  category_id INTEGER NOT NULL,
+  season_start TEXT NOT NULL,
+  season_end TEXT NOT NULL,
+  started_on TEXT NOT NULL,
+  amount_pence INTEGER NOT NULL,
+  status TEXT NOT NULL DEFAULT 'active',
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
