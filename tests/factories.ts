@@ -76,3 +76,22 @@ export async function makeMember(
   }
   return res.body.id as number;
 }
+
+export async function makeCategory(
+  app: Express,
+  fields: Record<string, unknown> = {},
+): Promise<number> {
+  const n = next();
+  const res = await api(app)
+    .post('/categories')
+    .send({
+      code: `FULL${n}`,
+      name: 'Full playing',
+      annualRatePence: 96000,
+      ...fields,
+    });
+  if (res.status !== 201) {
+    throw new Error(`makeCategory: ${res.status} ${JSON.stringify(res.body)}`);
+  }
+  return res.body.id as number;
+}
