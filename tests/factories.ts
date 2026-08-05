@@ -95,3 +95,26 @@ export async function makeCategory(
   }
   return res.body.id as number;
 }
+
+export async function makeSubscription(
+  app: Express,
+  fields: Record<string, unknown> = {},
+): Promise<number> {
+  const n = next();
+  const { memberId: parent, ...rest } = fields as { memberId?: number };
+  const memberId = parent ?? (await makeMember(app));
+  const categoryId = await makeCategory(app);
+  const res = await api(app)
+    .post(`/members/${memberId}/subscriptions`)
+    .send({
+      categoryId: categoryId,
+      seasonStart: '2025-01-01',
+      seasonEnd: '2026-01-01',
+      startedOn: '2025-01-01',
+      ...rest,
+    });
+  if (res.status !== 201) {
+    throw new Error(`makeSubscription: ${res.status} ${JSON.stringify(res.body)}`);
+  }
+  return res.body.id as number;
+}
