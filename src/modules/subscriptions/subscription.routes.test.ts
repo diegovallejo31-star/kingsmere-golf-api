@@ -14,14 +14,12 @@ describe('subscriptions over the wire', () => {
     const memberId = await makeMember(app);
     const categoryId = await makeCategory(app);
 
-    const made = await api(app)
-      .post(`/members/${memberId}/subscriptions`)
-      .send({
-        categoryId: categoryId,
-        seasonStart: '2025-01-01',
-        seasonEnd: '2026-01-01',
-        startedOn: '2025-01-01',
-      });
+    const made = await api(app).post(`/members/${memberId}/subscriptions`).send({
+      categoryId: categoryId,
+      seasonStart: '2025-01-01',
+      seasonEnd: '2026-01-01',
+      startedOn: '2025-01-01',
+    });
     expect(made.status).toBe(201);
     expect(made.body.status).toBe('active');
 
@@ -35,14 +33,12 @@ describe('subscriptions over the wire', () => {
     const memberId = await makeMember(app);
     const categoryId = await makeCategory(app);
 
-    const made = await api(app)
-      .post(`/members/${memberId}/subscriptions`)
-      .send({
-        categoryId: categoryId,
-        seasonStart: '2025-01-01',
-        seasonEnd: '2026-01-01',
-        startedOn: '2025-01-01',
-      });
+    const made = await api(app).post(`/members/${memberId}/subscriptions`).send({
+      categoryId: categoryId,
+      seasonStart: '2025-01-01',
+      seasonEnd: '2026-01-01',
+      startedOn: '2025-01-01',
+    });
     expect(Object.keys(made.body).sort()).toEqual([
       'amountPence',
       'categoryId',
@@ -62,14 +58,12 @@ describe('subscriptions over the wire', () => {
     const memberId = await makeMember(app);
     const categoryId = await makeCategory(app);
 
-    const made = await api(app)
-      .post(`/members/${memberId}/subscriptions`)
-      .send({
-        categoryId: categoryId,
-        seasonStart: '2025-01-01',
-        seasonEnd: '2026-01-01',
-        startedOn: '2025-01-01',
-      });
+    const made = await api(app).post(`/members/${memberId}/subscriptions`).send({
+      categoryId: categoryId,
+      seasonStart: '2025-01-01',
+      seasonEnd: '2026-01-01',
+      startedOn: '2025-01-01',
+    });
     const read = await api(app).get(`/subscriptions/${made.body.id}`);
     expect(read.status).toBe(200);
     expect(read.body.id).toBe(made.body.id);
@@ -83,15 +77,13 @@ describe('subscriptions over the wire', () => {
     const memberId = await makeMember(app);
     const categoryId = await makeCategory(app);
 
-    const res = await api(app)
-      .post(`/members/${memberId}/subscriptions`)
-      .send({
-        categoryId: categoryId,
-        seasonStart: '2025-01-01',
-        seasonEnd: '2026-01-01',
-        startedOn: '2025-01-01',
-        nonesuch: 1,
-      });
+    const res = await api(app).post(`/members/${memberId}/subscriptions`).send({
+      categoryId: categoryId,
+      seasonStart: '2025-01-01',
+      seasonEnd: '2026-01-01',
+      startedOn: '2025-01-01',
+      nonesuch: 1,
+    });
     expect(res.status).toBe(400);
   });
 
@@ -107,14 +99,12 @@ describe('subscriptions over the wire', () => {
     const app = buildApp();
     const categoryId = await makeCategory(app);
 
-    const res = await api(app)
-      .post('/members/999999/subscriptions')
-      .send({
-        categoryId: categoryId,
-        seasonStart: '2025-01-01',
-        seasonEnd: '2026-01-01',
-        startedOn: '2025-01-01',
-      });
+    const res = await api(app).post('/members/999999/subscriptions').send({
+      categoryId: categoryId,
+      seasonStart: '2025-01-01',
+      seasonEnd: '2026-01-01',
+      startedOn: '2025-01-01',
+    });
     expect(res.status).toBe(404);
   });
 

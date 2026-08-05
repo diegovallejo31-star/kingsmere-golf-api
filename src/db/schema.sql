@@ -124,3 +124,17 @@ CREATE TABLE IF NOT EXISTS subscriptions (
   created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
+
+-- A member's tee time. It is booked, then played or cancelled, and does
+-- * not come back once it is either - a cancelled slot is one somebody else may
+-- * already have taken, and a played round is one the card has gone in for.
+CREATE TABLE IF NOT EXISTS bookings (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  member_id INTEGER NOT NULL REFERENCES members(id) ON DELETE CASCADE,
+  on_day TEXT NOT NULL,
+  tee_time TEXT NOT NULL,
+  holes INTEGER NOT NULL,
+  status TEXT NOT NULL DEFAULT 'booked',
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
