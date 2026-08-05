@@ -15,6 +15,10 @@ import {
   createClubStaffMemberRouter,
   createStaffMemberRouter,
 } from './modules/staff/staffMember.routes';
+import {
+  createMemberSubscriptionRouter,
+  createSubscriptionRouter,
+} from './modules/subscriptions/subscription.routes';
 
 export function createApp(db: Database): Express {
   const app = express();
@@ -38,6 +42,8 @@ export function createApp(db: Database): Express {
   app.use('/staff', requireApiKey, createStaffMemberRouter(db));
   app.use('/members', requireApiKey, createMemberRouter(db));
   app.use('/categories', requireApiKey, createCategoryRouter(db));
+  app.use('/members', requireApiKey, createMemberSubscriptionRouter(db));
+  app.use('/subscriptions', requireApiKey, createSubscriptionRouter(db));
 
   app.use(notFoundHandler);
   app.use(errorHandler);
