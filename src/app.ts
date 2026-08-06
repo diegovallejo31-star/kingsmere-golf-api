@@ -8,6 +8,10 @@ import { requestLogger } from './middleware/requestLogger';
 import { createApiKeyRouter } from './modules/apikeys/apiKey.routes';
 import { createAuditRouter } from './modules/audit/audit.routes';
 import { createAuthRouter } from './modules/auth/auth.routes';
+import {
+  createBookingRouter,
+  createMemberBookingRouter,
+} from './modules/bookings/booking.routes';
 import { createCategoryRouter } from './modules/categories/category.routes';
 import { createClubRouter } from './modules/clubs/club.routes';
 import { createMemberRouter } from './modules/members/member.routes';
@@ -44,6 +48,8 @@ export function createApp(db: Database): Express {
   app.use('/categories', requireApiKey, createCategoryRouter(db));
   app.use('/members', requireApiKey, createMemberSubscriptionRouter(db));
   app.use('/subscriptions', requireApiKey, createSubscriptionRouter(db));
+  app.use('/members', requireApiKey, createMemberBookingRouter(db));
+  app.use('/bookings', requireApiKey, createBookingRouter(db));
 
   app.use(notFoundHandler);
   app.use(errorHandler);
