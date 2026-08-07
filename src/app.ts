@@ -14,6 +14,7 @@ import {
 } from './modules/bookings/booking.routes';
 import { createCategoryRouter } from './modules/categories/category.routes';
 import { createClubRouter } from './modules/clubs/club.routes';
+import { createBookingGuestRouter, createGuestRouter } from './modules/guests/guest.routes';
 import { createMemberRouter } from './modules/members/member.routes';
 import {
   createClubStaffMemberRouter,
@@ -50,6 +51,8 @@ export function createApp(db: Database): Express {
   app.use('/subscriptions', requireApiKey, createSubscriptionRouter(db));
   app.use('/members', requireApiKey, createMemberBookingRouter(db));
   app.use('/bookings', requireApiKey, createBookingRouter(db));
+  app.use('/bookings', requireApiKey, createBookingGuestRouter(db));
+  app.use('/guests', requireApiKey, createGuestRouter(db));
 
   app.use(notFoundHandler);
   app.use(errorHandler);
