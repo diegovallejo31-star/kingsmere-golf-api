@@ -118,3 +118,24 @@ export async function makeSubscription(
   }
   return res.body.id as number;
 }
+
+export async function makeBooking(
+  app: Express,
+  fields: Record<string, unknown> = {},
+): Promise<number> {
+  const n = next();
+  const { memberId: parent, ...rest } = fields as { memberId?: number };
+  const memberId = parent ?? (await makeMember(app));
+  const res = await api(app)
+    .post(`/members/${memberId}/bookings`)
+    .send({
+      onDay: '2025-06-14',
+      teeTime: '08:40',
+      holes: 18,
+      ...rest,
+    });
+  if (res.status !== 201) {
+    throw new Error(`makeBooking: ${res.status} ${JSON.stringify(res.body)}`);
+  }
+  return res.body.id as number;
+}
