@@ -138,3 +138,15 @@ CREATE TABLE IF NOT EXISTS bookings (
   created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
+
+-- Somebody a member signs in on a booking. A guest plays on the member's
+-- * ticket and the green fee lands on the member's account, so the guest is a row
+-- * under the booking rather than a member in their own right.
+CREATE TABLE IF NOT EXISTS guests (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  booking_id INTEGER NOT NULL REFERENCES bookings(id) ON DELETE CASCADE,
+  name TEXT NOT NULL,
+  green_fee_pence INTEGER NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
