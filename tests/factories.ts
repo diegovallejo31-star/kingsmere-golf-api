@@ -139,3 +139,23 @@ export async function makeBooking(
   }
   return res.body.id as number;
 }
+
+export async function makeGuest(
+  app: Express,
+  fields: Record<string, unknown> = {},
+): Promise<number> {
+  const n = next();
+  const { bookingId: parent, ...rest } = fields as { bookingId?: number };
+  const bookingId = parent ?? (await makeBooking(app));
+  const res = await api(app)
+    .post(`/bookings/${bookingId}/guests`)
+    .send({
+      name: 'A. Visitor',
+      greenFeePence: 4500,
+      ...rest,
+    });
+  if (res.status !== 201) {
+    throw new Error(`makeGuest: ${res.status} ${JSON.stringify(res.body)}`);
+  }
+  return res.body.id as number;
+}
