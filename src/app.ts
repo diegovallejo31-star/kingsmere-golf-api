@@ -14,6 +14,10 @@ import {
 } from './modules/bookings/booking.routes';
 import { createCategoryRouter } from './modules/categories/category.routes';
 import { createClubRouter } from './modules/clubs/club.routes';
+import {
+  createClubCompetitionRouter,
+  createCompetitionRouter,
+} from './modules/competitions/competition.routes';
 import { createBookingGuestRouter, createGuestRouter } from './modules/guests/guest.routes';
 import { createMemberRouter } from './modules/members/member.routes';
 import {
@@ -53,6 +57,8 @@ export function createApp(db: Database): Express {
   app.use('/bookings', requireApiKey, createBookingRouter(db));
   app.use('/bookings', requireApiKey, createBookingGuestRouter(db));
   app.use('/guests', requireApiKey, createGuestRouter(db));
+  app.use('/clubs', requireApiKey, createClubCompetitionRouter(db));
+  app.use('/competitions', requireApiKey, createCompetitionRouter(db));
 
   app.use(notFoundHandler);
   app.use(errorHandler);
