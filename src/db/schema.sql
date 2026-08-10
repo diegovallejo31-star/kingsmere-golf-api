@@ -165,3 +165,17 @@ CREATE TABLE IF NOT EXISTS competitions (
   created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
+
+-- One member in one competition. The fee is copied off the competition
+-- * when the entry is taken and then held, so a member who withdraws and is
+-- * refunded is refunded what they actually paid, not whatever the fee has since
+-- * become. A member enters a given competition once.
+CREATE TABLE IF NOT EXISTS entries (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  competition_id INTEGER NOT NULL REFERENCES competitions(id) ON DELETE CASCADE,
+  member_id INTEGER NOT NULL,
+  fee_pence INTEGER NOT NULL,
+  status TEXT NOT NULL DEFAULT 'entered',
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);

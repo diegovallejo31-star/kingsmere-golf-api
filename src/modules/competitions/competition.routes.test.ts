@@ -13,14 +13,12 @@ describe('competitions over the wire', () => {
     const app = buildApp();
     const clubId = await makeClub(app);
 
-    const made = await api(app)
-      .post(`/clubs/${clubId}/competitions`)
-      .send({
-        name: 'Club Championship',
-        onDay: '2025-07-19',
-        format: 'stableford',
-        entryFeePence: 1500,
-      });
+    const made = await api(app).post(`/clubs/${clubId}/competitions`).send({
+      name: 'Club Championship',
+      onDay: '2025-07-19',
+      format: 'stableford',
+      entryFeePence: 1500,
+    });
     expect(made.status).toBe(201);
 
     const listed = await api(app).get(`/clubs/${clubId}/competitions`);
@@ -32,14 +30,12 @@ describe('competitions over the wire', () => {
     const app = buildApp();
     const clubId = await makeClub(app);
 
-    const made = await api(app)
-      .post(`/clubs/${clubId}/competitions`)
-      .send({
-        name: 'Club Championship',
-        onDay: '2025-07-19',
-        format: 'stableford',
-        entryFeePence: 1500,
-      });
+    const made = await api(app).post(`/clubs/${clubId}/competitions`).send({
+      name: 'Club Championship',
+      onDay: '2025-07-19',
+      format: 'stableford',
+      entryFeePence: 1500,
+    });
     expect(Object.keys(made.body).sort()).toEqual([
       'clubId',
       'createdAt',
@@ -56,14 +52,12 @@ describe('competitions over the wire', () => {
     const app = buildApp();
     const clubId = await makeClub(app);
 
-    const made = await api(app)
-      .post(`/clubs/${clubId}/competitions`)
-      .send({
-        name: 'Club Championship',
-        onDay: '2025-07-19',
-        format: 'stableford',
-        entryFeePence: 1500,
-      });
+    const made = await api(app).post(`/clubs/${clubId}/competitions`).send({
+      name: 'Club Championship',
+      onDay: '2025-07-19',
+      format: 'stableford',
+      entryFeePence: 1500,
+    });
     const read = await api(app).get(`/competitions/${made.body.id}`);
     expect(read.status).toBe(200);
     expect(read.body.id).toBe(made.body.id);
@@ -76,15 +70,13 @@ describe('competitions over the wire', () => {
     const app = buildApp();
     const clubId = await makeClub(app);
 
-    const res = await api(app)
-      .post(`/clubs/${clubId}/competitions`)
-      .send({
-        name: 'Club Championship',
-        onDay: '2025-07-19',
-        format: 'stableford',
-        entryFeePence: 1500,
-        nonesuch: 1,
-      });
+    const res = await api(app).post(`/clubs/${clubId}/competitions`).send({
+      name: 'Club Championship',
+      onDay: '2025-07-19',
+      format: 'stableford',
+      entryFeePence: 1500,
+      nonesuch: 1,
+    });
     expect(res.status).toBe(400);
   });
 
@@ -100,14 +92,12 @@ describe('competitions over the wire', () => {
     const app = buildApp();
     const clubId = await makeClub(app);
 
-    const made = await api(app)
-      .post(`/clubs/${clubId}/competitions`)
-      .send({
-        name: 'Club Championship',
-        onDay: '2025-07-19',
-        format: 'stableford',
-        entryFeePence: 1500,
-      });
+    const made = await api(app).post(`/clubs/${clubId}/competitions`).send({
+      name: 'Club Championship',
+      onDay: '2025-07-19',
+      format: 'stableford',
+      entryFeePence: 1500,
+    });
     const patched = await api(app)
       .patch(`/competitions/${made.body.id}`)
       .send({ entryFeePence: 2000 });
@@ -119,14 +109,12 @@ describe('competitions over the wire', () => {
     const app = buildApp();
     const clubId = await makeClub(app);
 
-    const made = await api(app)
-      .post(`/clubs/${clubId}/competitions`)
-      .send({
-        name: 'Club Championship',
-        onDay: '2025-07-19',
-        format: 'stableford',
-        entryFeePence: 1500,
-      });
+    const made = await api(app).post(`/clubs/${clubId}/competitions`).send({
+      name: 'Club Championship',
+      onDay: '2025-07-19',
+      format: 'stableford',
+      entryFeePence: 1500,
+    });
     const patched = await api(app).patch(`/competitions/${made.body.id}`).send({});
     expect(patched.status).toBe(400);
   });
@@ -134,14 +122,12 @@ describe('competitions over the wire', () => {
   it('404s when the club is not there', async () => {
     const app = buildApp();
 
-    const res = await api(app)
-      .post('/clubs/999999/competitions')
-      .send({
-        name: 'Club Championship',
-        onDay: '2025-07-19',
-        format: 'stableford',
-        entryFeePence: 1500,
-      });
+    const res = await api(app).post('/clubs/999999/competitions').send({
+      name: 'Club Championship',
+      onDay: '2025-07-19',
+      format: 'stableford',
+      entryFeePence: 1500,
+    });
     expect(res.status).toBe(404);
   });
 
