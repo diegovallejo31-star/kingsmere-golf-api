@@ -150,3 +150,18 @@ CREATE TABLE IF NOT EXISTS guests (
   created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
+
+-- A club competition on a day, with an entry fee. The fee is the club's
+-- * and is set once when the comp is put up; an entry reads it off here so that
+-- * two members who enter the same comp are charged the same, whatever the office
+-- * does to the fee afterwards.
+CREATE TABLE IF NOT EXISTS competitions (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  club_id INTEGER NOT NULL REFERENCES clubs(id) ON DELETE CASCADE,
+  name TEXT NOT NULL,
+  on_day TEXT NOT NULL,
+  format TEXT NOT NULL,
+  entry_fee_pence INTEGER NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
