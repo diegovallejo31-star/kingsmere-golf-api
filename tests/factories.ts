@@ -159,3 +159,25 @@ export async function makeGuest(
   }
   return res.body.id as number;
 }
+
+export async function makeCompetition(
+  app: Express,
+  fields: Record<string, unknown> = {},
+): Promise<number> {
+  const n = next();
+  const { clubId: parent, ...rest } = fields as { clubId?: number };
+  const clubId = parent ?? (await makeClub(app));
+  const res = await api(app)
+    .post(`/clubs/${clubId}/competitions`)
+    .send({
+      name: 'Club Championship',
+      onDay: '2025-07-19',
+      format: 'stableford',
+      entryFeePence: 1500,
+      ...rest,
+    });
+  if (res.status !== 201) {
+    throw new Error(`makeCompetition: ${res.status} ${JSON.stringify(res.body)}`);
+  }
+  return res.body.id as number;
+}
