@@ -181,3 +181,23 @@ export async function makeCompetition(
   }
   return res.body.id as number;
 }
+
+export async function makeEntry(
+  app: Express,
+  fields: Record<string, unknown> = {},
+): Promise<number> {
+  const n = next();
+  const { competitionId: parent, ...rest } = fields as { competitionId?: number };
+  const competitionId = parent ?? (await makeCompetition(app));
+  const memberId = await makeMember(app);
+  const res = await api(app)
+    .post(`/competitions/${competitionId}/entries`)
+    .send({
+      memberId: memberId,
+      ...rest,
+    });
+  if (res.status !== 201) {
+    throw new Error(`makeEntry: ${res.status} ${JSON.stringify(res.body)}`);
+  }
+  return res.body.id as number;
+}
