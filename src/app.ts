@@ -18,6 +18,10 @@ import {
   createClubCompetitionRouter,
   createCompetitionRouter,
 } from './modules/competitions/competition.routes';
+import {
+  createCompetitionEntryRouter,
+  createEntryRouter,
+} from './modules/entries/entry.routes';
 import { createBookingGuestRouter, createGuestRouter } from './modules/guests/guest.routes';
 import { createMemberRouter } from './modules/members/member.routes';
 import {
@@ -59,6 +63,8 @@ export function createApp(db: Database): Express {
   app.use('/guests', requireApiKey, createGuestRouter(db));
   app.use('/clubs', requireApiKey, createClubCompetitionRouter(db));
   app.use('/competitions', requireApiKey, createCompetitionRouter(db));
+  app.use('/competitions', requireApiKey, createCompetitionEntryRouter(db));
+  app.use('/entries', requireApiKey, createEntryRouter(db));
 
   app.use(notFoundHandler);
   app.use(errorHandler);
