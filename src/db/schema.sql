@@ -179,3 +179,18 @@ CREATE TABLE IF NOT EXISTS entries (
   created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
+
+-- A numbered locker at a club, with an annual rent. It is vacant or let,
+-- * and only a rental moves it between the two - the desk cannot flip it by hand,
+-- * because a locker marked vacant while a member still has the key is a locker
+-- * about to be let twice.
+CREATE TABLE IF NOT EXISTS lockers (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  club_id INTEGER NOT NULL REFERENCES clubs(id) ON DELETE CASCADE,
+  locker_number TEXT NOT NULL,
+  annual_rent_pence INTEGER NOT NULL,
+  status TEXT NOT NULL DEFAULT 'vacant',
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
+CREATE UNIQUE INDEX IF NOT EXISTS lockers_locker_number_idx ON lockers (club_id, locker_number);
