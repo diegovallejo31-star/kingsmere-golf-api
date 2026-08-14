@@ -201,3 +201,23 @@ export async function makeEntry(
   }
   return res.body.id as number;
 }
+
+export async function makeLocker(
+  app: Express,
+  fields: Record<string, unknown> = {},
+): Promise<number> {
+  const n = next();
+  const { clubId: parent, ...rest } = fields as { clubId?: number };
+  const clubId = parent ?? (await makeClub(app));
+  const res = await api(app)
+    .post(`/clubs/${clubId}/lockers`)
+    .send({
+      lockerNumber: `A14${n}`,
+      annualRentPence: 4000,
+      ...rest,
+    });
+  if (res.status !== 201) {
+    throw new Error(`makeLocker: ${res.status} ${JSON.stringify(res.body)}`);
+  }
+  return res.body.id as number;
+}
