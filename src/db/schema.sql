@@ -194,3 +194,18 @@ CREATE TABLE IF NOT EXISTS lockers (
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
 CREATE UNIQUE INDEX IF NOT EXISTS lockers_locker_number_idx ON lockers (club_id, locker_number);
+
+-- A member holding a locker for a season. Taking the rental is the only
+-- * thing that lets a locker, and ending it is the only thing that frees it, so
+-- * the locker's state and the member's key never disagree. The rent is the
+-- * locker's annual rent, copied when the rental is taken.
+CREATE TABLE IF NOT EXISTS rentals (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  member_id INTEGER NOT NULL REFERENCES members(id) ON DELETE CASCADE,
+  locker_id INTEGER NOT NULL,
+  taken_on TEXT NOT NULL,
+  rent_pence INTEGER NOT NULL,
+  status TEXT NOT NULL DEFAULT 'active',
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
