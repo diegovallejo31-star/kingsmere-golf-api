@@ -221,3 +221,24 @@ export async function makeLocker(
   }
   return res.body.id as number;
 }
+
+export async function makeRental(
+  app: Express,
+  fields: Record<string, unknown> = {},
+): Promise<number> {
+  const n = next();
+  const { memberId: parent, ...rest } = fields as { memberId?: number };
+  const memberId = parent ?? (await makeMember(app));
+  const lockerId = await makeLocker(app);
+  const res = await api(app)
+    .post(`/members/${memberId}/rentals`)
+    .send({
+      lockerId: lockerId,
+      takenOn: '2025-04-01',
+      ...rest,
+    });
+  if (res.status !== 201) {
+    throw new Error(`makeRental: ${res.status} ${JSON.stringify(res.body)}`);
+  }
+  return res.body.id as number;
+}
