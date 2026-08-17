@@ -209,3 +209,19 @@ CREATE TABLE IF NOT EXISTS rentals (
   created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
+
+-- A lesson a member has with a pro. It is charged for the time booked at
+-- * the pro's rate, worked out to the minute and held - a half-hour at a pound a
+-- * minute is thirty pounds whatever the pro's rate does next month. Only a
+-- * member of the professional staff may give one.
+CREATE TABLE IF NOT EXISTS lessons (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  member_id INTEGER NOT NULL REFERENCES members(id) ON DELETE CASCADE,
+  pro_id INTEGER NOT NULL,
+  on_day TEXT NOT NULL,
+  minutes INTEGER NOT NULL,
+  rate_pence INTEGER NOT NULL,
+  charge_pence INTEGER NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
