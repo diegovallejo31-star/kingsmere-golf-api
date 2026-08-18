@@ -242,3 +242,26 @@ export async function makeRental(
   }
   return res.body.id as number;
 }
+
+export async function makeLesson(
+  app: Express,
+  fields: Record<string, unknown> = {},
+): Promise<number> {
+  const n = next();
+  const { memberId: parent, ...rest } = fields as { memberId?: number };
+  const memberId = parent ?? (await makeMember(app));
+  const proId = await makeStaffMember(app);
+  const res = await api(app)
+    .post(`/members/${memberId}/lessons`)
+    .send({
+      proId: proId,
+      onDay: '2025-05-10',
+      minutes: 30,
+      ratePence: 6000,
+      ...rest,
+    });
+  if (res.status !== 201) {
+    throw new Error(`makeLesson: ${res.status} ${JSON.stringify(res.body)}`);
+  }
+  return res.body.id as number;
+}
