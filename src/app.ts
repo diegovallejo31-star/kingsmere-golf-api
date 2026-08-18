@@ -23,6 +23,7 @@ import {
   createEntryRouter,
 } from './modules/entries/entry.routes';
 import { createBookingGuestRouter, createGuestRouter } from './modules/guests/guest.routes';
+import { createLessonRouter, createMemberLessonRouter } from './modules/lessons/lesson.routes';
 import { createClubLockerRouter, createLockerRouter } from './modules/lockers/locker.routes';
 import { createMemberRouter } from './modules/members/member.routes';
 import { createMemberRentalRouter, createRentalRouter } from './modules/rentals/rental.routes';
@@ -71,6 +72,8 @@ export function createApp(db: Database): Express {
   app.use('/lockers', requireApiKey, createLockerRouter(db));
   app.use('/members', requireApiKey, createMemberRentalRouter(db));
   app.use('/rentals', requireApiKey, createRentalRouter(db));
+  app.use('/members', requireApiKey, createMemberLessonRouter(db));
+  app.use('/lessons', requireApiKey, createLessonRouter(db));
 
   app.use(notFoundHandler);
   app.use(errorHandler);
