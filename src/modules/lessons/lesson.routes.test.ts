@@ -122,14 +122,12 @@ describe('lessons over the wire', () => {
     const app = buildApp();
     const memberId = await makeMember(app);
     const clubId = await makeClub(app);
-    const pro = await api(app)
-      .post(`/clubs/${clubId}/staff`)
-      .send({
-        payrollNumber: 'P1',
-        name: 'D. Aird',
-        role: 'professional',
-        startedOn: '2016-02-01',
-      });
+    const pro = await api(app).post(`/clubs/${clubId}/staff`).send({
+      payrollNumber: 'P1',
+      name: 'D. Aird',
+      role: 'professional',
+      startedOn: '2016-02-01',
+    });
 
     // 30 minutes at 6000 an hour = 3000
     const lesson = await api(app)

@@ -225,3 +225,23 @@ CREATE TABLE IF NOT EXISTS lessons (
   created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
+
+-- A bill to one member for a period. It gathers the three things a member
+-- * is charged for centrally - their standing subscription, the lessons they had,
+-- * and the competitions they are entered in - totals them and takes VAT. Every
+-- * figure is worked out once, when the invoice is raised, and then stored.
+CREATE TABLE IF NOT EXISTS invoices (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  member_id INTEGER NOT NULL,
+  number TEXT NOT NULL,
+  raised_on TEXT NOT NULL,
+  subscription_pence INTEGER NOT NULL,
+  lessons_pence INTEGER NOT NULL,
+  entries_pence INTEGER NOT NULL,
+  net_pence INTEGER NOT NULL,
+  vat_pence INTEGER NOT NULL,
+  gross_pence INTEGER NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
+CREATE UNIQUE INDEX IF NOT EXISTS invoices_number_idx ON invoices (number);
