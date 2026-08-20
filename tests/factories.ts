@@ -265,3 +265,30 @@ export async function makeLesson(
   }
   return res.body.id as number;
 }
+
+export async function makeInvoice(
+  app: Express,
+  fields: Record<string, unknown> = {},
+): Promise<number> {
+  const n = next();
+  const memberId = await makeMember(app);
+  const categoryId = await makeCategory(app, { annualRatePence: 73000 });
+  await api(app).post(`/members/${memberId}/subscriptions`).send({
+    categoryId,
+    seasonStart: '2025-01-01',
+    seasonEnd: '2026-01-01',
+    startedOn: '2025-01-01',
+  });
+  const res = await api(app)
+    .post('/invoices')
+    .send({
+      memberId: memberId,
+      number: `GINV-1000${n}`,
+      raisedOn: '2025-06-02',
+      ...fields,
+    });
+  if (res.status !== 201) {
+    throw new Error(`makeInvoice: ${res.status} ${JSON.stringify(res.body)}`);
+  }
+  return res.body.id as number;
+}
