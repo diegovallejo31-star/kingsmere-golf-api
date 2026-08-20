@@ -169,14 +169,12 @@ describe('invoices over the wire', () => {
       startedOn: '2025-01-01',
     });
 
-    const pro = await api(app)
-      .post(`/clubs/${clubId}/staff`)
-      .send({
-        payrollNumber: 'IP',
-        name: 'Pro',
-        role: 'professional',
-        startedOn: '2016-02-01',
-      });
+    const pro = await api(app).post(`/clubs/${clubId}/staff`).send({
+      payrollNumber: 'IP',
+      name: 'Pro',
+      role: 'professional',
+      startedOn: '2016-02-01',
+    });
     await api(app)
       .post(`/members/${memberId}/lessons`)
       .send({ proId: pro.body.id, onDay: '2025-05-10', minutes: 30, ratePence: 6000 });
