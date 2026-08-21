@@ -27,6 +27,7 @@ import { createInvoiceRouter } from './modules/invoices/invoice.routes';
 import { createLessonRouter, createMemberLessonRouter } from './modules/lessons/lesson.routes';
 import { createClubLockerRouter, createLockerRouter } from './modules/lockers/locker.routes';
 import { createMemberRouter } from './modules/members/member.routes';
+import { createPaymentRouter } from './modules/payments/payment.routes';
 import { createMemberRentalRouter, createRentalRouter } from './modules/rentals/rental.routes';
 import {
   createClubStaffMemberRouter,
@@ -76,6 +77,7 @@ export function createApp(db: Database): Express {
   app.use('/members', requireApiKey, createMemberLessonRouter(db));
   app.use('/lessons', requireApiKey, createLessonRouter(db));
   app.use('/invoices', requireApiKey, createInvoiceRouter(db));
+  app.use('/payments', requireApiKey, createPaymentRouter(db));
 
   app.use(notFoundHandler);
   app.use(errorHandler);
