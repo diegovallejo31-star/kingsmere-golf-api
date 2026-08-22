@@ -259,3 +259,17 @@ CREATE TABLE IF NOT EXISTS payments (
   created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
+
+-- A handicap as it stood on a day. Handicaps only ever move by being
+-- * cut or put up after a round, so rather than overwrite one number the club
+-- * keeps the record and the latest by date is the one in play - which also means
+-- * a member's handicap history is there to read.
+CREATE TABLE IF NOT EXISTS handicaps (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  member_id INTEGER NOT NULL REFERENCES members(id) ON DELETE CASCADE,
+  recorded_on TEXT NOT NULL,
+  exact_tenths INTEGER NOT NULL,
+  reason TEXT NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);

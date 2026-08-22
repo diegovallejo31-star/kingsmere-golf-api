@@ -60,15 +60,13 @@ describe('payments over the wire', () => {
     const app = buildApp();
     const invoiceId = await makeInvoice(app);
 
-    const res = await api(app)
-      .post('/payments')
-      .send({
-        invoiceId: invoiceId,
-        paidOn: '2025-06-05',
-        method: 'card',
-        amountPence: 1000,
-        nonesuch: 1,
-      });
+    const res = await api(app).post('/payments').send({
+      invoiceId: invoiceId,
+      paidOn: '2025-06-05',
+      method: 'card',
+      amountPence: 1000,
+      nonesuch: 1,
+    });
     expect(res.status).toBe(400);
   });
 
