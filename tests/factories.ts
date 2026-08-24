@@ -313,3 +313,24 @@ export async function makePayment(
   }
   return res.body.id as number;
 }
+
+export async function makeHandicap(
+  app: Express,
+  fields: Record<string, unknown> = {},
+): Promise<number> {
+  const n = next();
+  const { memberId: parent, ...rest } = fields as { memberId?: number };
+  const memberId = parent ?? (await makeMember(app));
+  const res = await api(app)
+    .post(`/members/${memberId}/handicaps`)
+    .send({
+      recordedOn: '2025-01-10',
+      exactTenths: 180,
+      reason: 'New member',
+      ...rest,
+    });
+  if (res.status !== 201) {
+    throw new Error(`makeHandicap: ${res.status} ${JSON.stringify(res.body)}`);
+  }
+  return res.body.id as number;
+}
