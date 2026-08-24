@@ -273,3 +273,17 @@ CREATE TABLE IF NOT EXISTS handicaps (
   created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
+
+-- A round played by somebody who is not a member. It is billed on the day
+-- * rather than to an account, so it lives against the club rather than a member -
+-- * the club is who took the green fee.
+CREATE TABLE IF NOT EXISTS visitor_rounds (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  club_id INTEGER NOT NULL REFERENCES clubs(id) ON DELETE CASCADE,
+  visitor_name TEXT NOT NULL,
+  on_day TEXT NOT NULL,
+  holes INTEGER NOT NULL,
+  fee_pence INTEGER NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
