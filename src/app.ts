@@ -41,6 +41,10 @@ import {
   createMemberSubscriptionRouter,
   createSubscriptionRouter,
 } from './modules/subscriptions/subscription.routes';
+import {
+  createClubVisitorRoundRouter,
+  createVisitorRoundRouter,
+} from './modules/visitor_rounds/visitorRound.routes';
 
 export function createApp(db: Database): Express {
   const app = express();
@@ -84,6 +88,8 @@ export function createApp(db: Database): Express {
   app.use('/payments', requireApiKey, createPaymentRouter(db));
   app.use('/members', requireApiKey, createMemberHandicapRouter(db));
   app.use('/handicaps', requireApiKey, createHandicapRouter(db));
+  app.use('/clubs', requireApiKey, createClubVisitorRoundRouter(db));
+  app.use('/visitor-rounds', requireApiKey, createVisitorRoundRouter(db));
 
   app.use(notFoundHandler);
   app.use(errorHandler);
