@@ -334,3 +334,25 @@ export async function makeHandicap(
   }
   return res.body.id as number;
 }
+
+export async function makeVisitorRound(
+  app: Express,
+  fields: Record<string, unknown> = {},
+): Promise<number> {
+  const n = next();
+  const { clubId: parent, ...rest } = fields as { clubId?: number };
+  const clubId = parent ?? (await makeClub(app));
+  const res = await api(app)
+    .post(`/clubs/${clubId}/visitor-rounds`)
+    .send({
+      visitorName: 'R. Guest',
+      onDay: '2025-06-20',
+      holes: 18,
+      feePence: 5500,
+      ...rest,
+    });
+  if (res.status !== 201) {
+    throw new Error(`makeVisitorRound: ${res.status} ${JSON.stringify(res.body)}`);
+  }
+  return res.body.id as number;
+}
