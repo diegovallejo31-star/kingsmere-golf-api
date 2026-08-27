@@ -61,15 +61,13 @@ describe('visitor_rounds over the wire', () => {
     const app = buildApp();
     const clubId = await makeClub(app);
 
-    const res = await api(app)
-      .post(`/clubs/${clubId}/visitor-rounds`)
-      .send({
-        visitorName: 'R. Guest',
-        onDay: '2025-06-20',
-        holes: 18,
-        feePence: 5500,
-        nonesuch: 1,
-      });
+    const res = await api(app).post(`/clubs/${clubId}/visitor-rounds`).send({
+      visitorName: 'R. Guest',
+      onDay: '2025-06-20',
+      holes: 18,
+      feePence: 5500,
+      nonesuch: 1,
+    });
     expect(res.status).toBe(400);
   });
 

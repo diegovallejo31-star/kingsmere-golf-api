@@ -287,3 +287,16 @@ CREATE TABLE IF NOT EXISTS visitor_rounds (
   created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
   updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
 );
+
+-- A ride-on buggy hired for a round. It goes on the booking so the fee
+-- * ends up with the member who booked the tee time, and it can only be added
+-- * while the round is still to be played - a buggy on a round already gone in is
+-- * a mistake, not a hire.
+CREATE TABLE IF NOT EXISTS buggy_hires (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  booking_id INTEGER NOT NULL REFERENCES bookings(id) ON DELETE CASCADE,
+  buggy_ref TEXT NOT NULL,
+  fee_pence INTEGER NOT NULL,
+  created_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now')),
+  updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%fZ', 'now'))
+);
