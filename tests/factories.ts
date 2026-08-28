@@ -356,3 +356,23 @@ export async function makeVisitorRound(
   }
   return res.body.id as number;
 }
+
+export async function makeBuggyHire(
+  app: Express,
+  fields: Record<string, unknown> = {},
+): Promise<number> {
+  const n = next();
+  const { bookingId: parent, ...rest } = fields as { bookingId?: number };
+  const bookingId = parent ?? (await makeBooking(app));
+  const res = await api(app)
+    .post(`/bookings/${bookingId}/buggy-hires`)
+    .send({
+      buggyRef: 'B3',
+      feePence: 2500,
+      ...rest,
+    });
+  if (res.status !== 201) {
+    throw new Error(`makeBuggyHire: ${res.status} ${JSON.stringify(res.body)}`);
+  }
+  return res.body.id as number;
+}
