@@ -12,6 +12,10 @@ import {
   createBookingRouter,
   createMemberBookingRouter,
 } from './modules/bookings/booking.routes';
+import {
+  createBookingBuggyHireRouter,
+  createBuggyHireRouter,
+} from './modules/buggy_hires/buggyHire.routes';
 import { createCategoryRouter } from './modules/categories/category.routes';
 import { createClubRouter } from './modules/clubs/club.routes';
 import {
@@ -90,6 +94,8 @@ export function createApp(db: Database): Express {
   app.use('/handicaps', requireApiKey, createHandicapRouter(db));
   app.use('/clubs', requireApiKey, createClubVisitorRoundRouter(db));
   app.use('/visitor-rounds', requireApiKey, createVisitorRoundRouter(db));
+  app.use('/bookings', requireApiKey, createBookingBuggyHireRouter(db));
+  app.use('/buggy-hires', requireApiKey, createBuggyHireRouter(db));
 
   app.use(notFoundHandler);
   app.use(errorHandler);
